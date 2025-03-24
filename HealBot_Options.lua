@@ -317,7 +317,7 @@ end
 
 local tmpDebugThrottle=GetTime()
 function HealBot_Options_retDebuffPriority(debuffName, debuffType)
-    return HealBot_Config.HealBot_Custom_Debuffs[debuffName] or HealBot_Config.HealBotDebuffPriority[debuffType] or 99
+    return HealBot_Config_Debuffs.HealBot_Custom_Debuffs[debuffName] or HealBot_Config.HealBotDebuffPriority[debuffType] or 99
 end
 
 function HealBot_Options_Pct_OnLoad(self,vText)
@@ -1069,7 +1069,7 @@ function HealBot_Options_TextAlign_OnValueChanged(self)
     g:SetText(self.text .. " ".. self:GetValue()..": " ..HealBot_Alignment[self:GetValue()]);
     if Healbot_Config_Skins.TextAlignment[Healbot_Config_Skins.Current_Skin] ~= self:GetValue() then
         Healbot_Config_Skins.TextAlignment[Healbot_Config_Skins.Current_Skin] = self:GetValue();
-        StaticPopup_Show ("HEALBOT_OPTIONS_RELOADUI");
+        HealBot_setOptions_Timer(150)
     end
 end
 
@@ -5870,8 +5870,8 @@ end
 function HealBot_Options_CDCPriorityC_Refresh(onselect)
     if not onselect then HealBot_Options_CDCPriorityC_Initialize() end
     if HealBot_Options_StorePrev["CDebuffcustomName"] then
-        if not HealBot_Config.HealBot_Custom_Debuffs[HealBot_Options_StorePrev["CDebuffcustomName"]] then HealBot_Config.HealBot_Custom_Debuffs[HealBot_Options_StorePrev["CDebuffcustomName"]]=10 end;
-        UIDropDownMenu_SetSelectedID(HealBot_Options_CDCPriorityC,HealBot_Config.HealBot_Custom_Debuffs[HealBot_Options_StorePrev["CDebuffcustomName"]])
+        if not HealBot_Config_Debuffs.HealBot_Custom_Debuffs[HealBot_Options_StorePrev["CDebuffcustomName"]] then HealBot_Config_Debuffs.HealBot_Custom_Debuffs[HealBot_Options_StorePrev["CDebuffcustomName"]]=10 end;
+        UIDropDownMenu_SetSelectedID(HealBot_Options_CDCPriorityC,HealBot_Config_Debuffs.HealBot_Custom_Debuffs[HealBot_Options_StorePrev["CDebuffcustomName"]])
     end
 end
 
@@ -6064,7 +6064,7 @@ end
 
 function HealBot_Options_CDCPriorityC_OnSelect(self)
     if HealBot_Options_StorePrev["CDebuffcustomName"] then
-        HealBot_Config.HealBot_Custom_Debuffs[HealBot_Options_StorePrev["CDebuffcustomName"]] = self:GetID()
+        HealBot_Config_Debuffs.HealBot_Custom_Debuffs[HealBot_Options_StorePrev["CDebuffcustomName"]] = self:GetID()
     end
     HealBot_Options_CDCPriorityC_Refresh(true)
     HealBot_Options_setCustomDebuffList()
@@ -6118,7 +6118,7 @@ function HealBot_Options_CDebuffCat_genList()
     HealBot_Options_ResetCDebuffBtn:Disable();
     j=0
     for dName,x in pairs(HealBot_Globals.Custom_Debuff_Categories) do
-        if HealBot_Options_StorePrev["CDebuffCatID"]==x and HealBot_Config.HealBot_Custom_Debuffs[dName] then
+        if HealBot_Options_StorePrev["CDebuffCatID"]==x and HealBot_Config_Debuffs.HealBot_Custom_Debuffs[dName] then
             table.insert(CDebuffCat_List, dName)
             j=j+1
         end
@@ -6252,11 +6252,11 @@ local NewCDebuffTxt=nil
 function HealBot_Options_NewCDebuffBtn_OnClick(self)
     NewCDebuffTxt=HealBot_Options_NewCDebuff:GetText()
     unique=true;
-    for k, _ in pairs(HealBot_Config.HealBot_Custom_Debuffs) do
+    for k, _ in pairs(HealBot_Config_Debuffs.HealBot_Custom_Debuffs) do
         if k==NewCDebuffTxt then unique=false; end
     end
     if unique then
-        HealBot_Config.HealBot_Custom_Debuffs[NewCDebuffTxt]=10;
+        HealBot_Config_Debuffs.HealBot_Custom_Debuffs[NewCDebuffTxt]=10;
     end
     HealBot_Globals.Custom_Debuff_Categories[NewCDebuffTxt]=HealBot_Options_StorePrev["CDebuffCatID"]
     HealBot_Options_NewCDebuff:SetText("")
@@ -6283,27 +6283,27 @@ end
 
 function HealBot_Options_DeleteCDebuffBtn_OnClick(self)
     HealBot_Globals.Custom_Debuff_Categories[HealBot_Options_StorePrev["CDebuffcustomName"]]=nil;
-    HealBot_Config.HealBot_Custom_Debuffs[HealBot_Options_StorePrev["CDebuffcustomName"]]=nil;
-    if HealBot_Config.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]] then HealBot_Config.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]]=nil end
+    HealBot_Config_Debuffs.HealBot_Custom_Debuffs[HealBot_Options_StorePrev["CDebuffcustomName"]]=nil;
+    if HealBot_Config_Debuffs.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]] then HealBot_Config_Debuffs.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]]=nil end
     HealBot_Options_CDebuffTxt1_Refresh()
     HealBot_Options_CDCPriorityC_Refresh()
     HealBot_SetCDCBarColours();
 end
 
 function HealBot_Options_ResetCDebuff()
-    HealBot_Config.HealBot_Custom_Debuffs[HealBot_Options_StorePrev["CDebuffcustomName"]]=10;
-    if HealBot_Config.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]] then HealBot_Config.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]]=nil end
+    HealBot_Config_Debuffs.HealBot_Custom_Debuffs[HealBot_Options_StorePrev["CDebuffcustomName"]]=10;
+    if HealBot_Config_Debuffs.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]] then HealBot_Config_Debuffs.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]]=nil end
     HealBot_Options_CDebuffTxt1_Refresh()
     HealBot_Options_CDCPriorityC_Refresh()
     HealBot_SetCDCBarColours();
 end
 
 function HealBot_Options_delCustomPrio10()
-    for dName, x in pairs(HealBot_Config.HealBot_Custom_Debuffs) do
+    for dName, x in pairs(HealBot_Config_Debuffs.HealBot_Custom_Debuffs) do
         if x==10 then
             HealBot_Globals.Custom_Debuff_Categories[dName]=nil;
-            HealBot_Config.HealBot_Custom_Debuffs[dName]=nil;
-            if HealBot_Config.CDCBarColour[dName] then HealBot_Config.CDCBarColour[dName]=nil end
+            HealBot_Config_Debuffs.HealBot_Custom_Debuffs[dName]=nil;
+            if HealBot_Config_Debuffs.CDCBarColour[dName] then HealBot_Config_Debuffs.CDCBarColour[dName]=nil end
         end
     end
     HealBot_Options_CDebuffTxt1_Refresh()
@@ -6316,8 +6316,8 @@ function HealBot_Options_setCustomDebuffList()
     local customDefaultCnt=0
     local customListPos=0
     local textname=nil
-    for dName, x in pairs(HealBot_Config.HealBot_Custom_Debuffs) do
-        if HealBot_Config.CDCBarColour[dName] or HealBot_Config.HealBot_Custom_Debuffs[dName]~=10 then
+    for dName, x in pairs(HealBot_Config_Debuffs.HealBot_Custom_Debuffs) do
+        if HealBot_Config_Debuffs.CDCBarColour[dName] or HealBot_Config_Debuffs.HealBot_Custom_Debuffs[dName]~=10 then
             if not customPriority[x] then customPriority[x]={} end
             customPriority[x][dName]=dName
         else
@@ -6352,15 +6352,15 @@ function HealBot_Options_setCustomDebuffList()
                     else
                         textname:SetText(j.." - "..dName)
                     end
-                    if HealBot_Config.CDCBarColour[z] then
+                    if HealBot_Config_Debuffs.CDCBarColour[z] then
                         y=z
                     else
                         y=HEALBOT_CUSTOM_en
                     end
-                    if HealBot_Config.CDCBarColour[y].R<0.5 and HealBot_Config.CDCBarColour[y].G<0.5 and HealBot_Config.CDCBarColour[y].B<0.5 then
-                        textname:SetTextColor(HealBot_Config.CDCBarColour[y].R+0.4,HealBot_Config.CDCBarColour[y].G+0.4,HealBot_Config.CDCBarColour[y].B+0.4,1)
+                    if HealBot_Config_Debuffs.CDCBarColour[y].R<0.5 and HealBot_Config_Debuffs.CDCBarColour[y].G<0.5 and HealBot_Config_Debuffs.CDCBarColour[y].B<0.5 then
+                        textname:SetTextColor(HealBot_Config_Debuffs.CDCBarColour[y].R+0.4,HealBot_Config_Debuffs.CDCBarColour[y].G+0.4,HealBot_Config_Debuffs.CDCBarColour[y].B+0.4,1)
                     else
-                        textname:SetTextColor(HealBot_Config.CDCBarColour[y].R,HealBot_Config.CDCBarColour[y].G,HealBot_Config.CDCBarColour[y].B,1)
+                        textname:SetTextColor(HealBot_Config_Debuffs.CDCBarColour[y].R,HealBot_Config_Debuffs.CDCBarColour[y].G,HealBot_Config_Debuffs.CDCBarColour[y].B,1)
                     end
                 end
             end
@@ -7023,16 +7023,16 @@ function HealBot_Colorpick_OnClick(CDCType)
     HealBot_ColourObjWaiting=CDCType;
     if CDCType==HEALBOT_CUSTOM_en and HealBot_Options_StorePrev["CDebuffcustomName"] then
         HealBot_ColourObjWaiting=HealBot_Options_StorePrev["CDebuffcustomName"]
-        if not HealBot_Config.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]] then 
-            HealBot_Config.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]]={}
-            HealBot_UseColourPick(HealBot_Config.CDCBarColour[HEALBOT_CUSTOM_en].R,HealBot_Config.CDCBarColour[HEALBOT_CUSTOM_en].G,HealBot_Config.CDCBarColour[HEALBOT_CUSTOM_en].B, nil)
+        if not HealBot_Config_Debuffs.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]] then 
+            HealBot_Config_Debuffs.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]]={}
+            HealBot_UseColourPick(HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CUSTOM_en].R,HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CUSTOM_en].G,HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CUSTOM_en].B, nil)
         else
-            HealBot_UseColourPick(HealBot_Config.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]].R,
-                                  HealBot_Config.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]].G,
-                                  HealBot_Config.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]].B, nil)
+            HealBot_UseColourPick(HealBot_Config_Debuffs.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]].R,
+                                  HealBot_Config_Debuffs.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]].G,
+                                  HealBot_Config_Debuffs.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]].B, nil)
         end
     else
-        HealBot_UseColourPick(HealBot_Config.CDCBarColour[CDCType].R,HealBot_Config.CDCBarColour[CDCType].G,HealBot_Config.CDCBarColour[CDCType].B, nil)
+        HealBot_UseColourPick(HealBot_Config_Debuffs.CDCBarColour[CDCType].R,HealBot_Config_Debuffs.CDCBarColour[CDCType].G,HealBot_Config_Debuffs.CDCBarColour[CDCType].B, nil)
     end
 end
 
@@ -7126,9 +7126,9 @@ function HealBot_Returned_Colours(R, G, B, A)
         HealBot_setOptions_Timer(100)
         setskincols=false;
     else
-        HealBot_Config.CDCBarColour[HealBot_ColourObjWaiting].R,
-        HealBot_Config.CDCBarColour[HealBot_ColourObjWaiting].G,
-        HealBot_Config.CDCBarColour[HealBot_ColourObjWaiting].B = R, G, B;
+        HealBot_Config_Debuffs.CDCBarColour[HealBot_ColourObjWaiting].R,
+        HealBot_Config_Debuffs.CDCBarColour[HealBot_ColourObjWaiting].G,
+        HealBot_Config_Debuffs.CDCBarColour[HealBot_ColourObjWaiting].B = R, G, B;
         HealBot_SetCDCBarColours();
         setskincols=false;
     end
@@ -7171,36 +7171,36 @@ function HealBot_UseColourPick(R, G, B, A)
 end
 
 function HealBot_SetCDCBarColours()
-    HealBot_DiseaseColorpick:SetStatusBarColor(HealBot_Config.CDCBarColour[HEALBOT_DISEASE_en].R or 0.55,
-                                               HealBot_Config.CDCBarColour[HEALBOT_DISEASE_en].G or 0.19,
-                                               HealBot_Config.CDCBarColour[HEALBOT_DISEASE_en].B or 0.7,
+    HealBot_DiseaseColorpick:SetStatusBarColor(HealBot_Config_Debuffs.CDCBarColour[HEALBOT_DISEASE_en].R or 0.55,
+                                               HealBot_Config_Debuffs.CDCBarColour[HEALBOT_DISEASE_en].G or 0.19,
+                                               HealBot_Config_Debuffs.CDCBarColour[HEALBOT_DISEASE_en].B or 0.7,
                                                Healbot_Config_Skins.Barcola[Healbot_Config_Skins.Current_Skin]);
-    HealBot_MagicColorpick:SetStatusBarColor(HealBot_Config.CDCBarColour[HEALBOT_MAGIC_en].R or 0.26,
-                                             HealBot_Config.CDCBarColour[HEALBOT_MAGIC_en].G or 0.33,
-                                             HealBot_Config.CDCBarColour[HEALBOT_MAGIC_en].B or 0.83,
+    HealBot_MagicColorpick:SetStatusBarColor(HealBot_Config_Debuffs.CDCBarColour[HEALBOT_MAGIC_en].R or 0.26,
+                                             HealBot_Config_Debuffs.CDCBarColour[HEALBOT_MAGIC_en].G or 0.33,
+                                             HealBot_Config_Debuffs.CDCBarColour[HEALBOT_MAGIC_en].B or 0.83,
                                              Healbot_Config_Skins.Barcola[Healbot_Config_Skins.Current_Skin]);
-    HealBot_PoisonColorpick:SetStatusBarColor(HealBot_Config.CDCBarColour[HEALBOT_POISON_en].R or 0.12,
-                                              HealBot_Config.CDCBarColour[HEALBOT_POISON_en].G or 0.46,
-                                              HealBot_Config.CDCBarColour[HEALBOT_POISON_en].B or 0.24,
+    HealBot_PoisonColorpick:SetStatusBarColor(HealBot_Config_Debuffs.CDCBarColour[HEALBOT_POISON_en].R or 0.12,
+                                              HealBot_Config_Debuffs.CDCBarColour[HEALBOT_POISON_en].G or 0.46,
+                                              HealBot_Config_Debuffs.CDCBarColour[HEALBOT_POISON_en].B or 0.24,
                                               Healbot_Config_Skins.Barcola[Healbot_Config_Skins.Current_Skin]);
-    HealBot_CurseColorpick:SetStatusBarColor(HealBot_Config.CDCBarColour[HEALBOT_CURSE_en].R or 0.83,
-                                             HealBot_Config.CDCBarColour[HEALBOT_CURSE_en].G or 0.43,
-                                             HealBot_Config.CDCBarColour[HEALBOT_CURSE_en].B or 0.09,
+    HealBot_CurseColorpick:SetStatusBarColor(HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CURSE_en].R or 0.83,
+                                             HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CURSE_en].G or 0.43,
+                                             HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CURSE_en].B or 0.09,
                                              Healbot_Config_Skins.Barcola[Healbot_Config_Skins.Current_Skin]);
-    if HealBot_Options_StorePrev["CDebuffcustomName"] and HealBot_Config.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]] then
-        HealBot_CustomColorpick:SetStatusBarColor(HealBot_Config.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]].R or 0.45,
-                                                 HealBot_Config.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]].G or 0,
-                                                 HealBot_Config.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]].B or 0.26,
+    if HealBot_Options_StorePrev["CDebuffcustomName"] and HealBot_Config_Debuffs.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]] then
+        HealBot_CustomColorpick:SetStatusBarColor(HealBot_Config_Debuffs.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]].R or 0.45,
+                                                 HealBot_Config_Debuffs.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]].G or 0,
+                                                 HealBot_Config_Debuffs.CDCBarColour[HealBot_Options_StorePrev["CDebuffcustomName"]].B or 0.26,
                                                  Healbot_Config_Skins.Barcola[Healbot_Config_Skins.Current_Skin]);
     else
-        HealBot_CustomColorpick:SetStatusBarColor(HealBot_Config.CDCBarColour[HEALBOT_CUSTOM_en].R or 0.45,
-                                                 HealBot_Config.CDCBarColour[HEALBOT_CUSTOM_en].G or 0,
-                                                 HealBot_Config.CDCBarColour[HEALBOT_CUSTOM_en].B or 0.26,
+        HealBot_CustomColorpick:SetStatusBarColor(HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CUSTOM_en].R or 0.45,
+                                                 HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CUSTOM_en].G or 0,
+                                                 HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CUSTOM_en].B or 0.26,
                                                  Healbot_Config_Skins.Barcola[Healbot_Config_Skins.Current_Skin]);
     end
-    HealBot_DebTextColorpick:SetStatusBarColor(HealBot_Config.CDCBarColour[HEALBOT_DISEASE_en].R or 0.1,
-                                               HealBot_Config.CDCBarColour[HEALBOT_DISEASE_en].G or 0.05,
-                                               HealBot_Config.CDCBarColour[HEALBOT_DISEASE_en].B or 0.2,
+    HealBot_DebTextColorpick:SetStatusBarColor(HealBot_Config_Debuffs.CDCBarColour[HEALBOT_DISEASE_en].R or 0.1,
+                                               HealBot_Config_Debuffs.CDCBarColour[HEALBOT_DISEASE_en].G or 0.05,
+                                               HealBot_Config_Debuffs.CDCBarColour[HEALBOT_DISEASE_en].B or 0.2,
                                                Healbot_Config_Skins.Barcola[Healbot_Config_Skins.Current_Skin]);
     HealBot_Action_SetDebuffAggroCols()
     HealBot_Options_setCustomDebuffList()
@@ -7453,6 +7453,7 @@ end
 
 function HealBot_Options_SetDefaults()
     HealBot_Config = HealBot_ConfigDefaults;
+    HealBot_Config_Debuffs = HealBot_Config_DebuffsDefaults;
     HealBot_Globals = HealBot_GlobalsDefaults;
     if Healbot_Config_Skins.CastNotify[Healbot_Config_Skins.Current_Skin] then HealBot_Options_CastNotify_OnClick(nil,0); end
 --    table.foreach(HealBot_ConfigDefaults, function (x,val)

@@ -265,17 +265,17 @@ function HealBot_Action_RefreshTooltip(unit, state)
             end
             if DebuffType then
                 linenum=linenum+1
-                if HealBot_Config.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]] then
+                if HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]] then
                     HealBot_Tooltip_SetLineLeft(uName.." suffers from "..HealBot_UnitDebuff[xGUID]["name"],
-                                                HealBot_Config.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]].R+0.2,
-                                                HealBot_Config.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]].G+0.2,
-                                                HealBot_Config.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]].B+0.2,
+                                                HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]].R+0.2,
+                                                HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]].G+0.2,
+                                                HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]].B+0.2,
                                                 linenum,1)
                 else
                     HealBot_Tooltip_SetLineLeft(uName.." suffers from "..HealBot_UnitDebuff[xGUID]["name"],
-                                                HealBot_Config.CDCBarColour[DebuffType].R+0.2,
-                                                HealBot_Config.CDCBarColour[DebuffType].G+0.2,
-                                                HealBot_Config.CDCBarColour[DebuffType].B+0.2,
+                                                HealBot_Config_Debuffs.CDCBarColour[DebuffType].R+0.2,
+                                                HealBot_Config_Debuffs.CDCBarColour[DebuffType].G+0.2,
+                                                HealBot_Config_Debuffs.CDCBarColour[DebuffType].B+0.2,
                                                 linenum,1)
                 end
                 HealBot_Tooltip_SetLineRight(" ",0,0,0,linenum,0)

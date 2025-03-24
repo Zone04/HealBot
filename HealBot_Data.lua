@@ -25,6 +25,106 @@ HealBot_Default_Sounds={
 };
 HealBot_Default_Font= "Friz Quadrata TT";
 
+HealBot_Config_DebuffsDefaults = {
+  CDCBarColour = {
+    [HEALBOT_DISEASE_en] = { R = 0.55, G = 0.19, B = 0.7, },
+    [HEALBOT_MAGIC_en] = { R = 0.26, G = 0.33, B = 0.83, },
+    [HEALBOT_POISON_en] = { R = 0.12, G = 0.46, B = 0.24, },
+    [HEALBOT_CURSE_en] = { R = 0.83, G = 0.43, B = 0.09, },
+    [HEALBOT_CUSTOM_en] = { R = 0.85, G = 0, B = 0.26, }, -- added by Diacono
+  },
+  HealBot_Custom_Debuffs = {
+    -- Karazhan
+    [HEALBOT_DEBUFF_ICE_TOMB]         = 10, -- Karazhan - Ice Tomb
+    [HEALBOT_DEBUFF_SACRIFICE]        = 10, -- Illhoof - Sacrifice
+    -- Hyjal    
+    [HEALBOT_DEBUFF_ICEBOLT]          = 10, -- Rage Winterchill - Icebolt
+    [HEALBOT_DEBUFF_DOOMFIRE]         = 10, -- Archimonde - Doomfire
+    -- Black Temple    
+    [HEALBOT_DEBUFF_IMPALING_SPINE]   = 10, -- Naj'entus - Impaling Spine
+    [HEALBOT_DEBUFF_FEL_RAGE]         = 10, -- Bloodboil - Fel Rage
+    [HEALBOT_DEBUFF_FEL_RAGE2]        = 10, -- Bloodboil - Fel Rage 2
+    [HEALBOT_DEBUFF_FATAL_ATTRACTION] = 10, -- Mother Shahraz - Fatal Attraction
+    [HEALBOT_DEBUFF_AGONIZING_FLAMES] = 10, -- Illidan - Agonizing Flames
+    [HEALBOT_DEBUFF_DARK_BARRAGE]     = 10, -- Illidan - Dark Barrage
+    [HEALBOT_DEBUFF_PARASITIC_SHADOWFIEND] = 10, -- Illidan - Parasitic Shadowfiend
+    -- Zul'Aman    
+    [HEALBOT_DEBUFF_GRIEVOUS_THROW]    = 10, -- Zul'jin - Grievous Throw
+    -- Sunwell    
+    [HEALBOT_DEBUFF_BURN]              = 10, -- Brutallus - Burn
+    [HEALBOT_DEBUFF_ENCAPSULATE]       = 10, -- Felymyst - Encapsulate
+    [HEALBOT_DEBUFF_CONFLAGRATION]     = 10, -- Lady Sacrolash - Conflagration
+    [HEALBOT_DEBUFF_FLAME_SEAR]        = 10, -- Warlock Alythess - Flame Sear        
+    [HEALBOT_DEBUFF_FIRE_BLOOM]        = 10, -- Kil'jaeden - Fire Bloom
+    -- WotLK Dungeons    
+    [HEALBOT_DEBUFF_GRIEVOUS_BITE]     = 10, -- Drak'Tharon Keep - Grievous Bite
+    [HEALBOT_DEBUFF_FROST_TOMB]        = 10, -- Utgarde Keep - Frost Tomb
+    -- Naxxramas    
+    [HEALBOT_DEBUFF_WEB_WRAP]          = 10, -- Maexxna - Web Wrap
+    [HEALBOT_DEBUFF_JAGGED_KNIFE]      = 10, -- Razuvious - Jagged Knife        
+    [HEALBOT_DEBUFF_FROST_BLAST]       = 10, -- Kel'Thuzad - Frost Blast
+    -- Ulduar
+    [HEALBOT_DEBUFF_SLAG_PIT]          = 10, -- Ignis - Slag Pot
+    [HEALBOT_DEBUFF_GRAVITY_BOMB]      = 10, -- XT-002 - Gravity Bomb       
+    [HEALBOT_DEBUFF_LIGHT_BOMB]        = 10, -- XT-002 - Light Bomb
+    [HEALBOT_DEBUFF_STONE_GRIP]        = 10, -- Kologarn - Stone Grip
+    [HEALBOT_DEBUFF_FERAL_POUNCE]      = 10, -- Auriaya - Feral Pounce      
+    [HEALBOT_DEBUFF_NAPALM_SHELL]      = 10, -- Mimiron - Napalm Shell
+    [HEALBOT_DEBUFF_IRON_ROOTS]        = 10, -- Freya - Iron Roots
+    [HEALBOT_DEBUFF_SARA_BLESSING]     = 10, -- Yogg-Saron - Sara's Blessing
+    -- Trial of the Crusader
+    [HEALBOT_DEBUFF_IMPALE]            = 10, -- Northrend Beasts - Impale
+    [HEALBOT_DEBUFF_SNOBOLLED]         = 10, -- Northrend Beasts - Snobolled!
+    [HEALBOT_DEBUFF_FIRE_BOMB]         = 10, -- Northrend Beasts - Fire Bomb
+    [HEALBOT_DEBUFF_BURNING_BILE]      = 10, -- Northrend Beasts - Burning Bile
+    [HEALBOT_DEBUFF_PARALYTIC_TOXIN]   = 10, -- Northrend Beasts - Paralytic Toxin
+    [HEALBOT_DEBUFF_INCINERATE_FLESH]  = 10, -- Lord Jaraxxus - Incinerate Flesh
+    [HEALBOT_DEBUFF_LEGION_FLAME]      = 10, -- Lord Jaraxxus - Legion Flame
+    [HEALBOT_DEBUFF_MISTRESS_KISS]     = 10, -- Lord Jaraxxus - Mistress' Kiss
+    [HEALBOT_DEBUFF_SPINNING_PAIN_SPIKE] = 10, -- Lord Jaraxxus - Spinning Pain Spike
+    [HEALBOT_DEBUFF_TOUCH_OF_LIGHT]    = 10, -- Twin Val'kyr - Touch of Light
+    [HEALBOT_DEBUFF_TOUCH_OF_DARKNESS] = 10, -- Twin Val'kyr - Touch of Darkness
+    [HEALBOT_DEBUFF_PENETRATING_COLD]  = 10, -- Anub'arak - Penetrating Cold
+    [HEALBOT_DEBUFF_ACID_DRENCHED_MANDIBLES] = 10, -- Anub'arak - Acid-Drenched Mandibles
+    [HEALBOT_DEBUFF_EXPOSE_WEAKNESS]   = 10, -- Anub'arak - Expose Weakness
+    -- Icecrown Citadel - Lower Spire
+    [HEALBOT_DEBUFF_IMPALED]           = 10, -- Lord Marrowgar - Impaled
+    [HEALBOT_DEBUFF_NECROTIC_STRIKE]   = 10, -- Lady Deathwhisper - Necrotic Strike
+    [HEALBOT_DEBUFF_FALLEN_CHAMPION]   = 10, -- Deathbringer Saurfang - Mark of the Fallen Champion
+    [HEALBOT_DEBUFF_BOILING_BLOOD]     = 10, -- Deathbringer Saurfang - Boiling Blood
+    [HEALBOT_DEBUFF_RUNE_OF_BLOOD]     = 10, -- Deathbringer Saurfang - Rune of Blood
+    -- Icecrown Citadel - The Plagueworks
+    [HEALBOT_DEBUFF_VILE_GAS]          = 10, -- Festergut - Vile Gas
+    [HEALBOT_DEBUFF_GASTRIC_BLOAT]     = 10, -- Festergut - Gastric Bloat   
+    [HEALBOT_DEBUFF_GAS_SPORE]         = 10, -- Festergut - Gas Spore   
+    [HEALBOT_DEBUFF_INOCULATED]        = 10, -- Festergut - Inoculated        
+    [HEALBOT_DEBUFF_MUTATED_INFECTION] = 10, -- Rotface - Mutated Infection
+    [HEALBOT_DEBUFF_GASEOUS_BLOAT]     = 10, -- Professor Putricide - Gaseous Bloat
+    [HEALBOT_DEBUFF_VOLATILE_OOZE]     = 10, -- Professor Putricide - Volatile Ooze Adhesive
+    [HEALBOT_DEBUFF_MUTATED_PLAGUE]    = 10, -- Professor Putricide - Mutated Plague
+    -- Icecrown Citadel - The Crimson Hall
+    [HEALBOT_DEBUFF_GLITTERING_SPARKS] = 10, -- Blood Prince Council - Glittering Sparks
+    [HEALBOT_DEBUFF_SHADOW_PRISON]     = 10, -- Blood Prince Council - Shadow Prison
+    [HEALBOT_DEBUFF_SWARMING_SHADOWS]  = 10, -- Queen Lana'thel - Swarming Shadows
+    [HEALBOT_DEBUFF_PACT_DARKFALLEN]   = 10, -- Queen Lana'thel - Pact of the Darkfallen
+    [HEALBOT_DEBUFF_ESSENCE_BLOOD_QUEEN] = 10, -- Queen Lana'thel - Essence of the Blood Queen
+    [HEALBOT_DEBUFF_DELIRIOUS_SLASH]   = 10, -- Queen Lana'thel - Delirious Slash
+    -- Icecrown Citadel - Frostwing Halls
+    [HEALBOT_DEBUFF_CORROSION]         = 10, -- Valithiria Dreamwalker - Corrosion
+    [HEALBOT_DEBUFF_GUT_SPRAY]         = 10, -- Valithiria Dreamwalker - Gut Spray
+    [HEALBOT_DEBUFF_ICE_TOMB]          = 10, -- Sindragosa - Ice Tomb
+    [HEALBOT_DEBUFF_FROST_BEACON]      = 10, -- Sindragosa - Frost Beacon
+    [HEALBOT_DEBUFF_CHILLED_BONE]      = 10, -- Sindragosa - Chilled to the Bone
+    [HEALBOT_DEBUFF_INSTABILITY]       = 10, -- Sindragosa - Instability
+    [HEALBOT_DEBUFF_MYSTIC_BUFFET]     = 10, -- Sindragosa - Mystic Buffet
+    [HEALBOT_DEBUFF_FROST_BREATH]      = 10, -- Sindragosa - Frost Breath
+    -- Icecrown Citadel - The Frozen Throne
+    [HEALBOT_DEBUFF_INFEST]            = 10, -- Lich King - Infest
+    [HEALBOT_DEBUFF_NECROTIC_PLAGUE]   = 10, -- Lich King - Necrotic Plague
+    [HEALBOT_DEBUFF_DEFILE]            = 10, -- Lich King - Defile
+    [HEALBOT_DEBUFF_HARVEST_SOUL]      = 10, -- Lich King - Harvest Soul 
+  },
+};
 
 HealBot_ConfigDefaults = {
   Version = HEALBOT_VERSION,
@@ -99,13 +199,6 @@ HealBot_ConfigDefaults = {
   CrashProtStartTime=2,
   LastVersionSkinUpdate="1.0.0",
   FocusMonitor = {},
-  CDCBarColour = {
-    [HEALBOT_DISEASE_en] = { R = 0.55, G = 0.19, B = 0.7, },
-    [HEALBOT_MAGIC_en] = { R = 0.26, G = 0.33, B = 0.83, },
-    [HEALBOT_POISON_en] = { R = 0.12, G = 0.46, B = 0.24, },
-    [HEALBOT_CURSE_en] = { R = 0.83, G = 0.43, B = 0.09, },
-    [HEALBOT_CUSTOM_en] = { R = 0.45, G = 0, B = 0.26, }, -- added by Diacono
-  },
   EmergIncRange = {
     [HEALBOT_DRUID]    = 0, [HEALBOT_HUNTER]   = 1, [HEALBOT_MAGE]     = 1,
     [HEALBOT_PALADIN]  = 0, [HEALBOT_PRIEST]   = 0, [HEALBOT_ROGUE]    = 0,
@@ -152,97 +245,6 @@ HealBot_ConfigDefaults = {
   HealBotBuffColG={},
   HealBotBuffColB={},
 
-    HealBot_Custom_Debuffs = {
-        -- Karazhan
-        [HEALBOT_DEBUFF_ICE_TOMB]         = 10, -- Karazhan - Ice Tomb
-        [HEALBOT_DEBUFF_SACRIFICE]        = 10, -- Illhoof - Sacrifice
-        -- Hyjal    
-        [HEALBOT_DEBUFF_ICEBOLT]          = 10, -- Rage Winterchill - Icebolt
-        [HEALBOT_DEBUFF_DOOMFIRE]         = 10, -- Archimonde - Doomfire
-        -- Black Temple    
-        [HEALBOT_DEBUFF_IMPALING_SPINE]   = 10, -- Naj'entus - Impaling Spine
-        [HEALBOT_DEBUFF_FEL_RAGE]         = 10, -- Bloodboil - Fel Rage
-        [HEALBOT_DEBUFF_FEL_RAGE2]        = 10, -- Bloodboil - Fel Rage 2
-        [HEALBOT_DEBUFF_FATAL_ATTRACTION] = 10, -- Mother Shahraz - Fatal Attraction
-        [HEALBOT_DEBUFF_AGONIZING_FLAMES] = 10, -- Illidan - Agonizing Flames
-        [HEALBOT_DEBUFF_DARK_BARRAGE]     = 10, -- Illidan - Dark Barrage
-        [HEALBOT_DEBUFF_PARASITIC_SHADOWFIEND] = 10, -- Illidan - Parasitic Shadowfiend
-        -- Zul'Aman    
-        [HEALBOT_DEBUFF_GRIEVOUS_THROW]    = 10, -- Zul'jin - Grievous Throw
-        -- Sunwell    
-        [HEALBOT_DEBUFF_BURN]              = 10, -- Brutallus - Burn
-        [HEALBOT_DEBUFF_ENCAPSULATE]       = 10, -- Felymyst - Encapsulate
-        [HEALBOT_DEBUFF_CONFLAGRATION]     = 10, -- Lady Sacrolash - Conflagration
-        [HEALBOT_DEBUFF_FLAME_SEAR]        = 10, -- Warlock Alythess - Flame Sear        
-        [HEALBOT_DEBUFF_FIRE_BLOOM]        = 10, -- Kil'jaeden - Fire Bloom
-        -- WotLK Dungeons    
-        [HEALBOT_DEBUFF_GRIEVOUS_BITE]     = 10, -- Drak'Tharon Keep - Grievous Bite
-        [HEALBOT_DEBUFF_FROST_TOMB]        = 10, -- Utgarde Keep - Frost Tomb
-        -- Naxxramas    
-        [HEALBOT_DEBUFF_WEB_WRAP]          = 10, -- Maexxna - Web Wrap
-        [HEALBOT_DEBUFF_JAGGED_KNIFE]      = 10, -- Razuvious - Jagged Knife        
-        [HEALBOT_DEBUFF_FROST_BLAST]       = 10, -- Kel'Thuzad - Frost Blast
-        -- Ulduar
-        [HEALBOT_DEBUFF_SLAG_PIT]          = 10, -- Ignis - Slag Pot
-        [HEALBOT_DEBUFF_GRAVITY_BOMB]      = 10, -- XT-002 - Gravity Bomb       
-        [HEALBOT_DEBUFF_LIGHT_BOMB]        = 10, -- XT-002 - Light Bomb
-        [HEALBOT_DEBUFF_STONE_GRIP]        = 10, -- Kologarn - Stone Grip
-        [HEALBOT_DEBUFF_FERAL_POUNCE]      = 10, -- Auriaya - Feral Pounce      
-        [HEALBOT_DEBUFF_NAPALM_SHELL]      = 10, -- Mimiron - Napalm Shell
-        [HEALBOT_DEBUFF_IRON_ROOTS]        = 10, -- Freya - Iron Roots
-        [HEALBOT_DEBUFF_SARA_BLESSING]     = 10, -- Yogg-Saron - Sara's Blessing
-        -- Trial of the Crusader
-        [HEALBOT_DEBUFF_IMPALE]            = 10, -- Northrend Beasts - Impale
-        [HEALBOT_DEBUFF_SNOBOLLED]         = 10, -- Northrend Beasts - Snobolled!
-        [HEALBOT_DEBUFF_FIRE_BOMB]         = 10, -- Northrend Beasts - Fire Bomb
-        [HEALBOT_DEBUFF_BURNING_BILE]      = 10, -- Northrend Beasts - Burning Bile
-        [HEALBOT_DEBUFF_PARALYTIC_TOXIN]   = 10, -- Northrend Beasts - Paralytic Toxin
-        [HEALBOT_DEBUFF_INCINERATE_FLESH]  = 10, -- Lord Jaraxxus - Incinerate Flesh
-        [HEALBOT_DEBUFF_LEGION_FLAME]      = 10, -- Lord Jaraxxus - Legion Flame
-        [HEALBOT_DEBUFF_MISTRESS_KISS]     = 10, -- Lord Jaraxxus - Mistress' Kiss
-        [HEALBOT_DEBUFF_SPINNING_PAIN_SPIKE] = 10, -- Lord Jaraxxus - Spinning Pain Spike
-        [HEALBOT_DEBUFF_TOUCH_OF_LIGHT]    = 10, -- Twin Val'kyr - Touch of Light
-        [HEALBOT_DEBUFF_TOUCH_OF_DARKNESS] = 10, -- Twin Val'kyr - Touch of Darkness
-        [HEALBOT_DEBUFF_PENETRATING_COLD]  = 10, -- Anub'arak - Penetrating Cold
-        [HEALBOT_DEBUFF_ACID_DRENCHED_MANDIBLES] = 10, -- Anub'arak - Acid-Drenched Mandibles
-        [HEALBOT_DEBUFF_EXPOSE_WEAKNESS]   = 10, -- Anub'arak - Expose Weakness
-        -- Icecrown Citadel - Lower Spire
-        [HEALBOT_DEBUFF_IMPALED]           = 10, -- Lord Marrowgar - Impaled
-        [HEALBOT_DEBUFF_NECROTIC_STRIKE]   = 10, -- Lady Deathwhisper - Necrotic Strike
-        [HEALBOT_DEBUFF_FALLEN_CHAMPION]   = 10, -- Deathbringer Saurfang - Mark of the Fallen Champion
-        [HEALBOT_DEBUFF_BOILING_BLOOD]     = 10, -- Deathbringer Saurfang - Boiling Blood
-        [HEALBOT_DEBUFF_RUNE_OF_BLOOD]     = 10, -- Deathbringer Saurfang - Rune of Blood
-        -- Icecrown Citadel - The Plagueworks
-        [HEALBOT_DEBUFF_VILE_GAS]          = 10, -- Festergut - Vile Gas
-        [HEALBOT_DEBUFF_GASTRIC_BLOAT]     = 10, -- Festergut - Gastric Bloat   
-        [HEALBOT_DEBUFF_GAS_SPORE]         = 10, -- Festergut - Gas Spore   
-        [HEALBOT_DEBUFF_INOCULATED]        = 10, -- Festergut - Inoculated        
-        [HEALBOT_DEBUFF_MUTATED_INFECTION] = 10, -- Rotface - Mutated Infection
-        [HEALBOT_DEBUFF_GASEOUS_BLOAT]     = 10, -- Professor Putricide - Gaseous Bloat
-        [HEALBOT_DEBUFF_VOLATILE_OOZE]     = 10, -- Professor Putricide - Volatile Ooze Adhesive
-        [HEALBOT_DEBUFF_MUTATED_PLAGUE]    = 10, -- Professor Putricide - Mutated Plague
-        -- Icecrown Citadel - The Crimson Hall
-        [HEALBOT_DEBUFF_GLITTERING_SPARKS] = 10, -- Blood Prince Council - Glittering Sparks
-        [HEALBOT_DEBUFF_SHADOW_PRISON]     = 10, -- Blood Prince Council - Shadow Prison
-        [HEALBOT_DEBUFF_SWARMING_SHADOWS]  = 10, -- Queen Lana'thel - Swarming Shadows
-        [HEALBOT_DEBUFF_PACT_DARKFALLEN]   = 10, -- Queen Lana'thel - Pact of the Darkfallen
-        [HEALBOT_DEBUFF_ESSENCE_BLOOD_QUEEN] = 10, -- Queen Lana'thel - Essence of the Blood Queen
-        [HEALBOT_DEBUFF_DELIRIOUS_SLASH]   = 10, -- Queen Lana'thel - Delirious Slash
-        -- Icecrown Citadel - Frostwing Halls
-        [HEALBOT_DEBUFF_CORROSION]         = 10, -- Valithiria Dreamwalker - Corrosion
-        [HEALBOT_DEBUFF_GUT_SPRAY]         = 10, -- Valithiria Dreamwalker - Gut Spray
-        [HEALBOT_DEBUFF_ICE_TOMB]          = 10, -- Sindragosa - Ice Tomb
-        [HEALBOT_DEBUFF_FROST_BEACON]      = 10, -- Sindragosa - Frost Beacon
-        [HEALBOT_DEBUFF_CHILLED_BONE]      = 10, -- Sindragosa - Chilled to the Bone
-        [HEALBOT_DEBUFF_INSTABILITY]       = 10, -- Sindragosa - Instability
-        [HEALBOT_DEBUFF_MYSTIC_BUFFET]     = 10, -- Sindragosa - Mystic Buffet
-        [HEALBOT_DEBUFF_FROST_BREATH]      = 10, -- Sindragosa - Frost Breath
-        -- Icecrown Citadel - The Frozen Throne
-        [HEALBOT_DEBUFF_INFEST]            = 10, -- Lich King - Infest
-        [HEALBOT_DEBUFF_NECROTIC_PLAGUE]   = 10, -- Lich King - Necrotic Plague
-        [HEALBOT_DEBUFF_DEFILE]            = 10, -- Lich King - Defile
-        [HEALBOT_DEBUFF_HARVEST_SOUL]      = 10, -- Lich King - Harvest Soul 
-    },
 };
 
 HealBot_Class_En = { 
@@ -1441,6 +1443,7 @@ HealBot_Config_SkinsDefaults = {
 HealBot_Config = {};
 HealBot_Globals = {};
 Healbot_Config_Skins = {};
+HealBot_Config_Debuffs = {};
 
 HealBot_UnitDebuff = {};
 HealBot_UnitBuff = {};

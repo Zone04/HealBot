@@ -745,14 +745,14 @@ function HealBot_Reset()
 end
 
 function HealBot_ResetCustomDebuffs()
-    HealBot_Config.HealBot_Custom_Debuffs = HealBot_ConfigDefaults.HealBot_Custom_Debuffs
+    HealBot_Config_Debuffs.HealBot_Custom_Debuffs = HealBot_Config_DebuffsDefaults.HealBot_Custom_Debuffs
     HealBot_Globals.Custom_Debuff_Categories = HealBot_GlobalsDefaults.Custom_Debuff_Categories
-    for s in pairs(HealBot_Config.CDCBarColour) do
-        if not HealBot_ConfigDefaults.CDCBarColour[s] then
-            HealBot_Config.CDCBarColour[s]=nil
+    for s in pairs(HealBot_Config_Debuffs.CDCBarColour) do
+        if not HealBot_Config_DebuffsDefaults.CDCBarColour[s] then
+            HealBot_Config_Debuffs.CDCBarColour[s]=nil
         end
     end
-    HealBot_Config.CDCBarColour[HEALBOT_CUSTOM_en]=HealBot_ConfigDefaults.CDCBarColour[HEALBOT_CUSTOM_en]
+    HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CUSTOM_en]=HealBot_Config_DebuffsDefaults.CDCBarColour[HEALBOT_CUSTOM_en]
     HealBot_Options_NewCDebuff:SetText("")
     HealBot_Options_CDebuffTxt1_Refresh()
     HealBot_Options_CDCPriorityC_Refresh()
@@ -1676,6 +1676,11 @@ function HealBot_OnEvent_VariablesLoaded(self)
     table.foreach(HealBot_Config_SkinsDefaults, function (key,val)
         if not Healbot_Config_Skins[key] then
             Healbot_Config_Skins[key] = val;
+        end
+    end);
+    table.foreach(HealBot_Config_DebuffsDefaults, function (key,val)
+        if not HealBot_Config_Debuffs[key] then
+            HealBot_Config_Debuffs[key] = val;
         end
     end);
     if HealBot_Config.HealBot_Enable_MouseWheel==1 then
@@ -3491,7 +3496,7 @@ function HealBot_CheckUnitDebuffs(hbGUID)
         if dName then
             y = y +1
             curDebuffs[dName]={}
-            if HealBot_Config.HealBot_Custom_Debuffs[dName] then debuff_type = HEALBOT_CUSTOM_en end
+            if HealBot_Config_Debuffs.HealBot_Custom_Debuffs[dName] then debuff_type = HEALBOT_CUSTOM_en end
             curDebuffs[dName]["priority"]=HealBot_Options_retDebuffPriority(dName, debuff_type)
             curDebuffs[dName]["type"]=debuff_type
             curDebuffs[dName]["duration"]=debuffDuration
@@ -3507,7 +3512,7 @@ function HealBot_CheckUnitDebuffs(hbGUID)
             if dName~=DebuffNameIn then
                 checkthis=false;
                 
-                if HealBot_Config.HealBot_Custom_Debuffs[dName] then 
+                if HealBot_Config_Debuffs.HealBot_Custom_Debuffs[dName] then 
                     WatchTarget={["Raid"]=true,} 
                 else
                     WatchTarget, WatchGUID=HealBot_Options_retDebuffWatchTarget(debuff_type,hbGUID);
@@ -3628,17 +3633,17 @@ function HealBot_CheckUnitDebuffs(hbGUID)
                 HealBot_Action_UpdateAggro(xUnit,"debuff",debuffCodes[DebuffType],hbGUID)
             end
             if HealBot_Config.ShowDebuffWarning==1 and inSpellRange>(HealBot_Config.HealBot_CDCWarnRange_Screen-3) then
-                if HealBot_Config.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]] then
+                if HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]] then
                     UIErrorsFrame:AddMessage(UnitName(xUnit).." suffers from "..HealBot_UnitDebuff[hbGUID]["name"], 
-                                             HealBot_Config.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]].R,
-                                             HealBot_Config.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]].G,
-                                             HealBot_Config.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]].B,
+                                             HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]].R,
+                                             HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]].G,
+                                             HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]].B,
                                              1, UIERRORS_HOLD_TIME);
                 else
                     UIErrorsFrame:AddMessage(UnitName(xUnit).." suffers from "..HealBot_UnitDebuff[hbGUID]["name"], 
-                                             HealBot_Config.CDCBarColour[DebuffType].R,
-                                             HealBot_Config.CDCBarColour[DebuffType].G,
-                                             HealBot_Config.CDCBarColour[DebuffType].B,
+                                             HealBot_Config_Debuffs.CDCBarColour[DebuffType].R,
+                                             HealBot_Config_Debuffs.CDCBarColour[DebuffType].G,
+                                             HealBot_Config_Debuffs.CDCBarColour[DebuffType].B,
                                              1, UIERRORS_HOLD_TIME);
                 end
             end
@@ -5642,8 +5647,8 @@ function HealBot_Update_Skins()
         HealBot_Config.HealBotBuffColB[10]=1
     end  
 	
-	if not HealBot_Config.CDCBarColour[HEALBOT_CUSTOM_en] then
-		HealBot_Config.CDCBarColour[HEALBOT_CUSTOM_en] = { R = 0.45, G = 0, B = 0.26, }
+	if not HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CUSTOM_en] then
+		HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CUSTOM_en] = { R = 0.45, G = 0, B = 0.26, }
     end
     
     if not HealBot_Config.SkinDefault then HealBot_Config.SkinDefault={} end
@@ -5871,9 +5876,9 @@ function HealBot_Update_Skins()
         end
     end
 
-    for dName, _ in pairs(HealBot_Config.HealBot_Custom_Debuffs) do
-        if not tonumber(HealBot_Config.HealBot_Custom_Debuffs[dName]) then
-            HealBot_Config.HealBot_Custom_Debuffs[dName]=10
+    for dName, _ in pairs(HealBot_Config_Debuffs.HealBot_Custom_Debuffs) do
+        if not tonumber(HealBot_Config_Debuffs.HealBot_Custom_Debuffs[dName]) then
+            HealBot_Config_Debuffs.HealBot_Custom_Debuffs[dName]=10
         end
     end
     

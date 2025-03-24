@@ -493,7 +493,7 @@ HEALBOT_OPTIONS_IGNOREDEBUFFMOVEMENT = "Verlangsamung";
 HEALBOT_OPTIONS_IGNOREDEBUFFDURATION = "Kurzer Effekt"; 
 HEALBOT_OPTIONS_IGNOREDEBUFFNOHARM = "Kein negativer Effekt"; 
 
-HEALBOT_OPTIONS_RANGECHECKFREQ = "Reichweiten-\195\156berpr\195\188fung alle";
+HEALBOT_OPTIONS_RANGECHECKFREQ = "Reichweite, Aura und Aggro \195\156berpr\195\188fungs-Frequenz";
 HEALBOT_OPTIONS_RANGECHECKUNITS = "Max. leicht verwundete Ziele in Reichweiten \195\156berpr\195\188fung";
 
 HEALBOT_OPTIONS_HIDEPARTYFRAMES = "Keine Portraits";
@@ -669,11 +669,14 @@ HEALBOT_HELP={ [1] = "[HealBot] /hb h -- zeige Hilfe",
                [4] = "[HealBot] /hb ui -- UI neu laden",
                [5] = "[HealBot] /hb ri -- Reset HealBot",
                [6] = "[HealBot] /hb t -- zwischen Healbot aktiviert/deaktiviert umschalten",
-               [7] = "[HealBot] /hb skin <skinName> -- wechselt Skins",
-               [8] = "[HealBot] /hb tr <Role> -- Setze h\195\182chste Rollenpriorit\195\164t f\195\188r Untersortierung nach Rolle. G\195\188ltige Rollen sind 'TANK', 'HEALER' oder 'DPS'",
+               [7] = "[HealBot] /hb bt -- zwischen Buff Monitor aktiviert/deaktiviert umschalten",
+               [8] = "[HealBot] /hb dt -- zwischen Debuff Monitor aktiviert/deaktiviert umschalten",
+               [9] = "[HealBot] /hb skin <skinName> -- wechselt Skins",
+               [10] = "[HealBot] /hb tr <Role> -- Setze h\195\182chste Rollenpriorit\195\164t f\195\188r Untersortierung nach Rolle. G\195\188ltige Rollen sind 'TANK', 'HEALER' oder 'DPS'",
               }
              
-HEALBOT_OPTION_HIGHLIGHTACTIVEBAR   = "Akt. Balken hervorheben"
+HEALBOT_OPTION_HIGHLIGHTACTIVEBAR = "Mouseover hervorheben"
+HEALBOT_OPTION_HIGHLIGHTTARGETBAR = "Ziel hervorheben"
 
 HEALBOT_SHOW_INCHEALS           = "Zeige ankommende Heilung";
 HEALBOT_D_DURATION              = "Direkte Dauer";
@@ -893,5 +896,21 @@ HEALBOT_CMD_DELCUSTOMDEBUFF10        = "L\195\182sche pers\195\182nliche Debuffs
 HEALBOT_ACCEPTSKINS                  = "Akzeptiere Skins von anderen"
 HEALBOT_SUPPRESSSOUND                = "Auto Schmuck: Unterdr\195\188cke Sound"
 HEALBOT_SUPPRESSERROR                = "Auto Schmuck: Unterdr\195\188cke Fehler"
+
+HEALBOT_WORD_OTHER                      = "Sonstige"
+HEALBOT_WORD_RESERVED                   = "Reserviert"
+
+HEALBOT_OPTIONS_CRASHPROT               = "Crash Protection"
+HEALBOT_CP_MACRO_LEN                    = "Makro Name muss zwischen 1 und 14 Zeichen lang sein"
+HEALBOT_CP_MACRO_BASE                   = "Grund-Makro Name"
+HEALBOT_CP_MACRO_INFO                   = "Crash Protection stellt die HealBot-UI nach einem DC wieder her.\nUm Crash Protection zu benutzen M\195\156SSEN 5 pers\195\182nliche Makropl\195\164tze frei sein."
+HEALBOT_CP_MACRO_SAVE                   = "Zuletzt gespeichert um: "
+HEALBOT_CP_STARTTIME                    = "Schutzdauer beim Einloggen"
+
+HEALBOT_OPTIONS_COMBATPROT              = "Combat Protection"
+HEALBOT_COMBATPROT_INFO                 = "Combat Protection stellt die HealBot-UI bei Gruppen-/Raid\195\164nderungen wieder her."
+HEALBOT_COMBATPROT_PARTYNO              = "Balken f\195\188r Gruppe reserviert"
+HEALBOT_COMBATPROT_RAIDNO               = "Balken f\195\188r Raid reserviert"
+
 
 end

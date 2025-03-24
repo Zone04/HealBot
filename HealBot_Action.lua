@@ -13,6 +13,7 @@ local HealBot_UnitRanger={}
 local HealBot_UnitRangeg={}
 local HealBot_UnitRangeb={}
 local HealBot_UnitRangea={}
+local HealBot_UnitRangeb3a={}
 local HealBot_UnitRangeitr={}
 local HealBot_UnitRangeitg={}
 local HealBot_UnitRangeitb={}
@@ -404,17 +405,17 @@ function HealBot_HealthColor(unit,hlth,maxhlth,tooltipcol,hbGUID,UnitDead,Member
         elseif Member_Debuff and UnitIsConnected(unit) then
             inSpellRange = HealBot_UnitInRange(HealBot_dSpell, unit)
             if HealBot_Config.CDCshownHB==1 and inSpellRange>(HealBot_Config.HealBot_CDCWarnRange_Bar-3) then
-                if HealBot_Config.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]] then
-                    return HealBot_Config.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]].R,
-                           HealBot_Config.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]].G,
-                           HealBot_Config.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]].B,
+                if HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]] then
+                    return HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]].R,
+                           HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]].G,
+                           HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[hbGUID]["name"]].B,
                            Healbot_Config_Skins.bareora[Healbot_Config_Skins.Current_Skin],
                            hrpct,
                            Healbot_Config_Skins.btextenabledcola[Healbot_Config_Skins.Current_Skin]
                 else
-                    return HealBot_Config.CDCBarColour[Member_Debuff].R,
-                           HealBot_Config.CDCBarColour[Member_Debuff].G,
-                           HealBot_Config.CDCBarColour[Member_Debuff].B,
+                    return HealBot_Config_Debuffs.CDCBarColour[Member_Debuff].R,
+                           HealBot_Config_Debuffs.CDCBarColour[Member_Debuff].G,
+                           HealBot_Config_Debuffs.CDCBarColour[Member_Debuff].B,
                            Healbot_Config_Skins.bareora[Healbot_Config_Skins.Current_Skin],
                            hrpct,
                            Healbot_Config_Skins.btextenabledcola[Healbot_Config_Skins.Current_Skin]
@@ -527,7 +528,7 @@ function HealBot_MayHeal(unit, unitName)
     end
 end
 
-function HealBot_Action_SetBar3Value(button, range)
+function HealBot_Action_SetBar3Value(button)
     if not button then return end
     barName = HealBot_Unit_Bar3[button.unit]
     if UnitManaMax(button.unit)==0 then
@@ -538,13 +539,7 @@ function HealBot_Action_SetBar3Value(button, range)
     y=floor((UnitMana(button.unit)/x)*100)
     hcr,hcg,hcb=HealBot_Action_GetManaBarCol(button.unit)
     barName:SetValue(y);
-    if HealBot_UnitStatus[button.unit]==1 and HealBot_UnitInRange(HealBot_hSpell, button.unit)>0 then
-        barName:SetStatusBarColor(hcr,hcg,hcb,Healbot_Config_Skins.Barcola[Healbot_Config_Skins.Current_Skin])
-    elseif HealBot_UnitStatus[button.unit]==1 and (HealBot_UnitInRange(HealBot_hSpell, button.unit)==0 or Healbot_Config_Skins.NotVisibleDisable[Healbot_Config_Skins.Current_Skin]==0) then
-        barName:SetStatusBarColor(hcr,hcg,hcb,Healbot_Config_Skins.bareora[Healbot_Config_Skins.Current_Skin])
-    else
-        barName:SetStatusBarColor(hcr,hcg,hcb,Healbot_Config_Skins.bardisa[Healbot_Config_Skins.Current_Skin])
-    end
+    barName:SetStatusBarColor(hcr,hcg,hcb,HealBot_UnitRangeb3a[button.unit] or Healbot_Config_Skins.bardisa[Healbot_Config_Skins.Current_Skin])
 end
 
 function HealBot_Action_GetManaBarCol(unit)
@@ -783,6 +778,7 @@ function HealBot_Action_EnableButton(button, hbGUID)
             ebusa = Healbot_Config_Skins.btextenabledcola[Healbot_Config_Skins.Current_Skin];
             HealBot_Enabled[hbGUID]=true
             ebubar:SetStatusBarColor(ebur,ebug,ebub,Healbot_Config_Skins.Barcola[Healbot_Config_Skins.Current_Skin]);
+            HealBot_UnitRangeb3a[ebUnit]=Healbot_Config_Skins.Barcola[Healbot_Config_Skins.Current_Skin]
             if Healbot_Config_Skins.ShowClassOnBar[Healbot_Config_Skins.Current_Skin]==1 and Healbot_Config_Skins.ShowClassType[Healbot_Config_Skins.Current_Skin]==1 then -- and HealBot_retdebuffTargetIcon(ebUnit) then
                 ebuicon15:SetAlpha(1) --Healbot_Config_Skins.Barcola[Healbot_Config_Skins.Current_Skin]);
             end
@@ -878,6 +874,7 @@ function HealBot_Action_EnableButton(button, hbGUID)
                     HealBot_Action_RefreshTooltip(ebUnit,"Disabled")
                 end
             end
+            HealBot_UnitRangeb3a[ebUnit]=ebua
         end
         HealBot_UnitRanger[ebUnit]=ebur
         HealBot_UnitRangeg[ebUnit]=ebug
@@ -904,11 +901,15 @@ function HealBot_Action_EnableButton(button, hbGUID)
             HealBot_UnitRangeb[ebUnit]=ebub or 0
         end
         HealBot_UnitRangea[ebUnit]=ebua or 0.1
+        HealBot_UnitRangeb3a[ebUnit]=ebua or 0.1
         HealBot_UnitRangeota[ebUnit]=ebusa or 0.01
     end
     
     if uHealIn>0 then
         ebubar2:SetStatusBarColor(ebur,ebug,ebub,Healbot_Config_Skins.BarcolaInHeal[Healbot_Config_Skins.Current_Skin]);
+        if HealBot_UnitRangeb3a[ebUnit]<Healbot_Config_Skins.BarcolaInHeal[Healbot_Config_Skins.Current_Skin] then
+            HealBot_UnitRangeb3a[ebUnit]=Healbot_Config_Skins.BarcolaInHeal[Healbot_Config_Skins.Current_Skin]
+        end
     else
         ebubar2:SetStatusBarColor(ebur,ebug,ebub,0);
     end
@@ -1270,6 +1271,7 @@ local abtSize = {[0]=1,[1]=1,[2]=1,[3]=2,[4]=2,[5]=2,[6]=3,[7]=3,[8]=3,[9]=3,[10
         bar:SetStatusBarTexture(LSM:Fetch('statusbar',Healbot_Config_Skins.btexture[Healbot_Config_Skins.Current_Skin]));
         bar:GetStatusBarTexture():SetHorizTile(false)
         bar.txt:SetFont(LSM:Fetch('font',Healbot_Config_Skins.btextfont[Healbot_Config_Skins.Current_Skin]),btextheight,"");
+        bar.txt:ClearAllPoints();
         if Healbot_Config_Skins.TextAlignment[Healbot_Config_Skins.Current_Skin]==1 then
             bar.txt:SetPoint("LEFT",bar,"LEFT",4,0)
         elseif Healbot_Config_Skins.TextAlignment[Healbot_Config_Skins.Current_Skin]==2 then
@@ -1722,6 +1724,10 @@ function HealBot_Action_CheckRange(unit, button)
                 if Healbot_Config_Skins.ShowClassOnBar[Healbot_Config_Skins.Current_Skin]==1 and Healbot_Config_Skins.ShowClassType[Healbot_Config_Skins.Current_Skin]==1 then
                     ebuicon15:SetAlpha(Healbot_Config_Skins.Barcola[Healbot_Config_Skins.Current_Skin]);
                 end
+                if Healbot_Config_Skins.bar2size[Healbot_Config_Skins.Current_Skin]>0 then 
+                    HealBot_UnitRangeb3a[unit]=Healbot_Config_Skins.Barcola[Healbot_Config_Skins.Current_Skin]
+                    HealBot_Action_SetBar3Value(HealBot_Unit_Button[unit]);
+                end
                 if Healbot_Config_Skins.AutoClose[Healbot_Config_Skins.Current_Skin]==1 then HealBot_Action_ShowPanel() end
             elseif uRange==0 or Healbot_Config_Skins.NotVisibleDisable[Healbot_Config_Skins.Current_Skin]==0 then
                 --ebubar:SetStatusBarColor(HealBot_UnitRanger[unit],HealBot_UnitRangeg[unit],HealBot_UnitRangeb[unit],Healbot_Config_Skins.bardisa[Healbot_Config_Skins.Current_Skin])
@@ -1730,15 +1736,20 @@ function HealBot_Action_CheckRange(unit, button)
                 if Healbot_Config_Skins.ShowClassOnBar[Healbot_Config_Skins.Current_Skin]==1 and Healbot_Config_Skins.ShowClassType[Healbot_Config_Skins.Current_Skin]==1 then
                     ebuicon15:SetAlpha(HealBot_UnitRangea[unit]);
                 end
+                if Healbot_Config_Skins.bar2size[Healbot_Config_Skins.Current_Skin]>0 then 
+                    HealBot_UnitRangeb3a[unit]=HealBot_UnitRangea[unit]
+                    HealBot_Action_SetBar3Value(HealBot_Unit_Button[unit]);
+                end
             else
                 ebubar:SetStatusBarColor(HealBot_UnitRanger[unit],HealBot_UnitRangeg[unit],HealBot_UnitRangeb[unit],Healbot_Config_Skins.bardisa[Healbot_Config_Skins.Current_Skin])
                 ebubar.txt:SetTextColor(HealBot_UnitRangeotr[unit],HealBot_UnitRangeotg[unit],HealBot_UnitRangeotb[unit],Healbot_Config_Skins.btextdisbledcola[Healbot_Config_Skins.Current_Skin]);
                 if Healbot_Config_Skins.ShowClassOnBar[Healbot_Config_Skins.Current_Skin]==1 and Healbot_Config_Skins.ShowClassType[Healbot_Config_Skins.Current_Skin]==1 then
                     ebuicon15:SetAlpha(Healbot_Config_Skins.bardisa[Healbot_Config_Skins.Current_Skin]);
                 end
-            end
-            if Healbot_Config_Skins.bar2size[Healbot_Config_Skins.Current_Skin]>0 then 
-                HealBot_Action_SetBar3Value(HealBot_Unit_Button[unit]);
+                if Healbot_Config_Skins.bar2size[Healbot_Config_Skins.Current_Skin]>0 then 
+                    HealBot_UnitRangeb3a[unit]=Healbot_Config_Skins.bardisa[Healbot_Config_Skins.Current_Skin]
+                    HealBot_Action_SetBar3Value(HealBot_Unit_Button[unit]);
+                end
             end
         end
     end
@@ -2746,21 +2757,21 @@ local HealBot_AggroUnitThreat=1
 local HealBot_HasAggro=false
 
 function HealBot_Action_SetDebuffAggroCols()
-    HealBot_AggroBarColr[5]=HealBot_Config.CDCBarColour[HEALBOT_DISEASE_en].R
-    HealBot_AggroBarColg[5]=HealBot_Config.CDCBarColour[HEALBOT_DISEASE_en].G
-    HealBot_AggroBarColb[5]=HealBot_Config.CDCBarColour[HEALBOT_DISEASE_en].B 
-    HealBot_AggroBarColr[6]=HealBot_Config.CDCBarColour[HEALBOT_MAGIC_en].R
-    HealBot_AggroBarColg[6]=HealBot_Config.CDCBarColour[HEALBOT_MAGIC_en].G
-    HealBot_AggroBarColb[6]=HealBot_Config.CDCBarColour[HEALBOT_MAGIC_en].B 
-    HealBot_AggroBarColr[7]=HealBot_Config.CDCBarColour[HEALBOT_POISON_en].R
-    HealBot_AggroBarColg[7]=HealBot_Config.CDCBarColour[HEALBOT_POISON_en].G
-    HealBot_AggroBarColb[7]=HealBot_Config.CDCBarColour[HEALBOT_POISON_en].B 
-    HealBot_AggroBarColr[8]=HealBot_Config.CDCBarColour[HEALBOT_CURSE_en].R
-    HealBot_AggroBarColg[8]=HealBot_Config.CDCBarColour[HEALBOT_CURSE_en].G
-    HealBot_AggroBarColb[8]=HealBot_Config.CDCBarColour[HEALBOT_CURSE_en].B 
-    HealBot_AggroBarColr[9]=HealBot_Config.CDCBarColour[HEALBOT_CUSTOM_en].R
-    HealBot_AggroBarColg[9]=HealBot_Config.CDCBarColour[HEALBOT_CUSTOM_en].G
-    HealBot_AggroBarColb[9]=HealBot_Config.CDCBarColour[HEALBOT_CUSTOM_en].B
+    HealBot_AggroBarColr[5]=HealBot_Config_Debuffs.CDCBarColour[HEALBOT_DISEASE_en].R
+    HealBot_AggroBarColg[5]=HealBot_Config_Debuffs.CDCBarColour[HEALBOT_DISEASE_en].G
+    HealBot_AggroBarColb[5]=HealBot_Config_Debuffs.CDCBarColour[HEALBOT_DISEASE_en].B 
+    HealBot_AggroBarColr[6]=HealBot_Config_Debuffs.CDCBarColour[HEALBOT_MAGIC_en].R
+    HealBot_AggroBarColg[6]=HealBot_Config_Debuffs.CDCBarColour[HEALBOT_MAGIC_en].G
+    HealBot_AggroBarColb[6]=HealBot_Config_Debuffs.CDCBarColour[HEALBOT_MAGIC_en].B 
+    HealBot_AggroBarColr[7]=HealBot_Config_Debuffs.CDCBarColour[HEALBOT_POISON_en].R
+    HealBot_AggroBarColg[7]=HealBot_Config_Debuffs.CDCBarColour[HEALBOT_POISON_en].G
+    HealBot_AggroBarColb[7]=HealBot_Config_Debuffs.CDCBarColour[HEALBOT_POISON_en].B 
+    HealBot_AggroBarColr[8]=HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CURSE_en].R
+    HealBot_AggroBarColg[8]=HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CURSE_en].G
+    HealBot_AggroBarColb[8]=HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CURSE_en].B 
+    HealBot_AggroBarColr[9]=HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CUSTOM_en].R
+    HealBot_AggroBarColg[9]=HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CUSTOM_en].G
+    HealBot_AggroBarColb[9]=HealBot_Config_Debuffs.CDCBarColour[HEALBOT_CUSTOM_en].B
 end
 
 function HealBot_Action_SetHightlightAggroCols()
@@ -2822,10 +2833,10 @@ function HealBot_Action_OnUpdate(self)
         HealBot_Action_Timer2 = 0
         for xGUID,bar4 in pairs(HealBot_AggroBar4) do
             HealBot_AggroUnitThreat=HealBot_UnitThreat[xGUID] or 2
-            if HealBot_AggroUnitThreat==9 and HealBot_UnitDebuff[xGUID] and HealBot_Config.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]] then
-                bar4:SetStatusBarColor(HealBot_Config.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]].R,
-                                       HealBot_Config.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]].G,
-                                       HealBot_Config.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]].B,HealBot_AggroBarA)
+            if HealBot_AggroUnitThreat==9 and HealBot_UnitDebuff[xGUID] and HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]] then
+                bar4:SetStatusBarColor(HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]].R,
+                                       HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]].G,
+                                       HealBot_Config_Debuffs.CDCBarColour[HealBot_UnitDebuff[xGUID]["name"]].B,HealBot_AggroBarA)
             else
                 bar4:SetStatusBarColor(HealBot_AggroBarColr[HealBot_AggroUnitThreat],HealBot_AggroBarColg[HealBot_AggroUnitThreat],HealBot_AggroBarColb[HealBot_AggroUnitThreat],HealBot_AggroBarA)
             end
