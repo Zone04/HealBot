@@ -6181,7 +6181,13 @@ function HealBot_Options_CDebuffTxt1_DropDown() -- added by Diacono
         for x,_ in pairs(info) do
             info[x]=nil;
         end
-        info.text = CDebuffCat_List[j];
+        if tonumber(CDebuffCat_List[j]) then
+            info.text = CDebuffCat_List[j].." "..GetSpellInfo(CDebuffCat_List[j]);
+            info.value = CDebuffCat_List[j]
+        else
+            info.text = CDebuffCat_List[j]
+            info.value = nil
+        end
         info.func = HealBot_Options_CDebuffTxt1_OnSelect;
         UIDropDownMenu_AddButton(info);
     end
@@ -6267,17 +6273,23 @@ end
 
 function HealBot_Options_ConfirmNewCDebuff()
     NewCDebuffTxt=strtrim(HealBot_Options_NewCDebuff:GetText())
+    local asID = nil
     HealBot_Options_NewCDebuff:SetText(NewCDebuffTxt)
     if tonumber(NewCDebuffTxt) then
+        asID = NewCDebuffTxt
         NewCDebuffTxt = GetSpellInfo(NewCDebuffTxt)
         if not NewCDebuffTxt then 
             StaticPopup_Show ("HEALBOT_OPTIONS_ERROR", HEALBOT_SPELL_NOT_FOUND);
-        else
-            HealBot_Options_NewCDebuff:SetText(NewCDebuffTxt)
+        -- else -- commenting this to keep the spell ID
+        --     HealBot_Options_NewCDebuff:SetText(NewCDebuffTxt)
         end
     end
     if NewCDebuffTxt and NewCDebuffTxt ~= "" then
-        StaticPopup_Show ("HEALBOT_OPTIONS_NEWCDEBUFF", NewCDebuffTxt);
+        if asID then 
+            StaticPopup_Show ("HEALBOT_OPTIONS_NEWCDEBUFF", asID.." - "..NewCDebuffTxt);
+        else
+            StaticPopup_Show ("HEALBOT_OPTIONS_NEWCDEBUFF", NewCDebuffTxt);
+        end
     end
 end
 
@@ -6348,9 +6360,17 @@ function HealBot_Options_setCustomDebuffList()
                 if customListPos<31 then
                     textname=_G["HealBot_Options_CustomDebuff_List"..customListPos]
                     if j<10 then
-                        textname:SetText("0"..j.." - "..dName)
+                        if tonumber(dName) then
+                            textname:SetText("0"..j.." - "..dName.. " - "..GetSpellInfo(dName))
+                        else
+                            textname:SetText("0"..j.." - "..dName)
+                        end
                     else
-                        textname:SetText(j.." - "..dName)
+                        if tonumber(dName) then
+                            textname:SetText(j.." - "..dName.. " - "..GetSpellInfo(dName))
+                        else
+                            textname:SetText(j.." - "..dName)
+                        end
                     end
                     if HealBot_Config_Debuffs.CDCBarColour[z] then
                         y=z

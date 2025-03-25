@@ -3492,7 +3492,7 @@ function HealBot_CheckUnitDebuffs(hbGUID)
         curDebuffs[x]=nil;
     end
     while true do
-        dName,_,_,_,debuff_type,debuffDuration,_,_,_,_ = UnitDebuff(xUnit,y)
+        dName,_,_,_,debuff_type,debuffDuration,_,_,_,_,spellID = UnitDebuff(xUnit,y)
         if dName then
             y = y +1
             curDebuffs[dName]={}
@@ -3500,6 +3500,13 @@ function HealBot_CheckUnitDebuffs(hbGUID)
             curDebuffs[dName]["priority"]=HealBot_Options_retDebuffPriority(dName, debuff_type)
             curDebuffs[dName]["type"]=debuff_type
             curDebuffs[dName]["duration"]=debuffDuration
+
+            -- Duplicate with spellID
+            curDebuffs[tostring(spellID)]={}
+            if HealBot_Config_Debuffs.HealBot_Custom_Debuffs[tostring(spellID)] then debuff_type = HEALBOT_CUSTOM_en end
+            curDebuffs[tostring(spellID)]["priority"]=HealBot_Options_retDebuffPriority(tostring(spellID), debuff_type)
+            curDebuffs[tostring(spellID)]["type"]=debuff_type
+            curDebuffs[tostring(spellID)]["duration"]=debuffDuration
         else
             do break end
         end 
@@ -3664,31 +3671,35 @@ function HealBot_CheckUnitDebuffs(hbGUID)
         end
         if HealBot_UnitDebuff[hbGUID] then
             if Healbot_Config_Skins.ShowDebuffIcon[Healbot_Config_Skins.Current_Skin]==1 and UnitIsVisible(xUnit) then
-                dName,_,deBuffTexture,bCount,_,_,expirationTime,_,_ = UnitDebuff(xUnit,HealBot_UnitDebuff[hbGUID]["name"])
+                if tonumber(HealBot_UnitDebuff[hbGUID]["name"]) then
+                    dName,_,deBuffTexture,bCount,_,_,expirationTime,_,_ = UnitDebuff(xUnit,GetSpellInfo(HealBot_UnitDebuff[hbGUID]["name"]))
+                else
+                    dName,_,deBuffTexture,bCount,_,_,expirationTime,_,_ = UnitDebuff(xUnit,HealBot_UnitDebuff[hbGUID]["name"])
+                end
                 if dName then
-                    if not HealBot_DeBuff_Texture[dName] and deBuffTexture then HealBot_DeBuff_Texture[dName]=deBuffTexture end
+                    if not HealBot_DeBuff_Texture[HealBot_UnitDebuff[hbGUID]["name"]] and deBuffTexture then HealBot_DeBuff_Texture[HealBot_UnitDebuff[hbGUID]["name"]]=deBuffTexture end
                     if (expirationTime or 0)==0 then expirationTime=hbNoEndTime end
-                    if HealBot_DeBuff_Texture[dName] then
+                    if HealBot_DeBuff_Texture[HealBot_UnitDebuff[hbGUID]["name"]] then
                         if not trackdebuffIcon[hbGUID] then 
-                            trackdebuffIcon[hbGUID]=dName
-                        elseif trackdebuffIcon[hbGUID]~=dName and HealBot_Player_HoT[hbGUID] and HealBot_Player_HoT[hbGUID][HealBot_PlayerGUID.."!"..trackdebuffIcon[hbGUID]] then
+                            trackdebuffIcon[hbGUID]=HealBot_UnitDebuff[hbGUID]["name"]
+                        elseif trackdebuffIcon[hbGUID]~=HealBot_UnitDebuff[hbGUID]["name"] and HealBot_Player_HoT[hbGUID] and HealBot_Player_HoT[hbGUID][HealBot_PlayerGUID.."!"..trackdebuffIcon[hbGUID]] then
                             HealBot_Player_HoT[hbGUID][HealBot_PlayerGUID.."!"..trackdebuffIcon[hbGUID]]=10
                             HealBot_HoT_Update(hbGUID, HealBot_PlayerGUID.."!"..trackdebuffIcon[hbGUID])
-                            trackdebuffIcon[hbGUID]=dName
+                            trackdebuffIcon[hbGUID]=HealBot_UnitDebuff[hbGUID]["name"]
                         end
                         if not bCount then bCount=1 end
                         if not HealBot_Player_HoT[hbGUID] then HealBot_Player_HoT[hbGUID]={} end
                         if (DeBuff_Count[hbGUID] or -1)~=bCount then
                             DeBuff_Count[hbGUID]=bCount
-                            HealBot_Player_HoT[hbGUID][HealBot_PlayerGUID.."!"..dName]=expirationTime+1
-                        elseif not HealBot_Player_HoT[hbGUID][HealBot_PlayerGUID.."!"..dName] then 
-                            HealBot_Player_HoT[hbGUID][HealBot_PlayerGUID.."!"..dName]=expirationTime+1 
+                            HealBot_Player_HoT[hbGUID][HealBot_PlayerGUID.."!"..HealBot_UnitDebuff[hbGUID]["name"]]=expirationTime+1
+                        elseif not HealBot_Player_HoT[hbGUID][HealBot_PlayerGUID.."!"..HealBot_UnitDebuff[hbGUID]["name"]] then 
+                            HealBot_Player_HoT[hbGUID][HealBot_PlayerGUID.."!"..HealBot_UnitDebuff[hbGUID]["name"]]=expirationTime+1 
                         end
                         if not HealBot_Player_HoT_Icons[hbGUID] then HealBot_Player_HoT_Icons[hbGUID]={} end
-                        if not HealBot_Player_HoT_Icons[hbGUID][HealBot_PlayerGUID.."!"..dName] then HealBot_Player_HoT_Icons[hbGUID][HealBot_PlayerGUID.."!"..dName]=0 end
-                        if HealBot_Player_HoT[hbGUID][HealBot_PlayerGUID.."!"..dName]~=expirationTime then
-                            HealBot_Player_HoT[hbGUID][HealBot_PlayerGUID.."!"..dName]=expirationTime
-                            HealBot_HoT_Update(hbGUID, HealBot_PlayerGUID.."!"..dName)
+                        if not HealBot_Player_HoT_Icons[hbGUID][HealBot_PlayerGUID.."!"..HealBot_UnitDebuff[hbGUID]["name"]] then HealBot_Player_HoT_Icons[hbGUID][HealBot_PlayerGUID.."!"..HealBot_UnitDebuff[hbGUID]["name"]]=0 end
+                        if HealBot_Player_HoT[hbGUID][HealBot_PlayerGUID.."!"..HealBot_UnitDebuff[hbGUID]["name"]]~=expirationTime then
+                            HealBot_Player_HoT[hbGUID][HealBot_PlayerGUID.."!"..HealBot_UnitDebuff[hbGUID]["name"]]=expirationTime
+                            HealBot_HoT_Update(hbGUID, HealBot_PlayerGUID.."!"..HealBot_UnitDebuff[hbGUID]["name"])
                         end
                     end
                 elseif HealBot_Player_HoT[hbGUID] and HealBot_Player_HoT[hbGUID][HealBot_PlayerGUID.."!"..DebuffNameIn] then
